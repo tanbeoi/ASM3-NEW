@@ -1,11 +1,11 @@
 import React from 'react';
-import '../App.css';
+import '../App.css';  // Don't forget to create this CSS file
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <div className="signup-container">
       <div className="signup-box">
-        <h2>Welcome Back</h2>
+        <h2>Create Account</h2>
         <form className="signup-form">
           <div className="form-group">
             <label>Email</label>
@@ -23,8 +23,16 @@ const SignIn = () => {
               required 
             />
           </div>
+          <div className="form-group">
+            <label>Confirm Password</label>
+            <input 
+              type="password" 
+              placeholder="Confirm your password"
+              required 
+            />
+          </div>
           <button type="submit" className="signup-button">
-            Sign In
+            Sign Up
           </button>
         </form>
       </div>
@@ -32,4 +40,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

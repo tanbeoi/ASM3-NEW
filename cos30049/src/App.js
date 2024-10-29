@@ -7,6 +7,7 @@ import DataVis from './Components/DataVis';
 import Contacts from './Components/Contacts';
 import SignIn from './Components/SignIn';
 import Predict from './Components/Predict';
+import SignUp from './Components/SignUp';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/predict" element={<Predict />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </Router>
   );
