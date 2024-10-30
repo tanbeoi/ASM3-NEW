@@ -1,3 +1,11 @@
+*{
+     font-family: Arial, Helvetica, sans-serif;
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+}
+
+
 .logo {
      height: 85px; /* Adjust the height as needed */
      width: auto;  /* Maintain aspect ratio */

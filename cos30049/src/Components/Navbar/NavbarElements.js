@@ -16,7 +16,7 @@ export const NavLink = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  padding: 0 1rem;
+  padding: 0 1rem; 
   height: 100%;
   cursor: pointer;
   &.active {
@@ -36,6 +36,7 @@ export const Bars = styled(FaBars)`
     transform: translate(-100%, 75%);
     font-size: 1.8rem;
     cursor: pointer;
+    z-index: 20; /* Ensure the Bars icon stays on top */
   }
 `;
 
@@ -46,6 +47,33 @@ export const NavMenu = styled.div`
 
   @media screen and (max-width: 768px) {
     display: none;
+  }
+`;
+
+export const SideNav = styled.div`
+  height: 100%;
+  width: ${({ isOpen }) => (isOpen ? '250px' : '0')};
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0; /* Changed from left to right */
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+
+  a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 18px; /* Reduced font size */
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    height: auto; /* Ensure height is auto */
+
+    &:hover {
+      color: #f1f1f1;
+    }
   }
 `;
 
