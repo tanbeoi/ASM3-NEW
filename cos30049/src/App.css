@@ -5,7 +5,6 @@
      padding: 0;
 }
 
-
 .logo {
      height: 85px; /* Adjust the height as needed */
      width: auto;  /* Maintain aspect ratio */
@@ -27,7 +26,7 @@
      font-size: 2.5rem;
      margin-bottom: 1rem;
      z-index: 1; /* Ensure text is above the image */
-     margin-top: -80px; /* Move the h1 upwards */
+     margin-top: -120px; /* Move the h1 upwards */
    }
    
    .home-container p {
