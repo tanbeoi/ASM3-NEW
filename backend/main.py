@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
+import os
+
 
 # Import your ML model here
 # from model import predict_delay
@@ -19,7 +21,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 #database setup
-DATABASE_URL = "C:/new/ASM3-NEW/backend/test.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'test.db')}" 
+#print(f"Database path: {DATABASE_URL}") #debug database path
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
