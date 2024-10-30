@@ -36,7 +36,7 @@ export const Bars = styled(FaBars)`
     transform: translate(-100%, 75%);
     font-size: 1.8rem;
     cursor: pointer;
-    z-index: 20; /* Ensure the Bars icon stays on top */
+    z-index: 20; /* Ensure it is above the side nav */
   }
 `;
 
@@ -56,7 +56,7 @@ export const SideNav = styled.div`
   position: fixed;
   z-index: 1;
   top: 0;
-  right: 0; /* Changed from left to right */
+  right: 0; 
   background-color: #111;
   overflow-x: hidden;
   transition: 0.5s;
@@ -65,11 +65,11 @@ export const SideNav = styled.div`
   a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
-    font-size: 18px; /* Reduced font size */
+    font-size: 18px;
     color: #818181;
     display: block;
     transition: 0.3s;
-    height: auto; /* Ensure height is auto */
+    height: auto; 
 
     &:hover {
       color: #f1f1f1;
