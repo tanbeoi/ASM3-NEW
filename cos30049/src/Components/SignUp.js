@@ -1,28 +1,39 @@
 import React, { useState } from 'react';
-import '../App.css';  // Don't forget to create this CSS file
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    username: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check if passwords match
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:8000/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        // Only send email and password to backend
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
       });
+      
       if (response.ok) {
         alert('Signup successful!');
-        // Optionally redirect to login page
+        navigate('/signin');
       } else {
         const data = await response.json();
         alert(data.detail || 'Signup failed');
@@ -32,16 +43,26 @@ const SignUp = () => {
       alert('Signup failed');
     }
   };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
   
   return (
     <div className="signup-container">
       <div className="signup-box">
         <h2>Create Account</h2>
-        <form className="signup-form">
+        <form className="signup-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
             <input 
-              type="email" 
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Enter your email"
               required 
             />
@@ -49,7 +70,10 @@ const SignUp = () => {
           <div className="form-group">
             <label>Password</label>
             <input 
-              type="password" 
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Enter your password"
               required 
             />
@@ -57,7 +81,10 @@ const SignUp = () => {
           <div className="form-group">
             <label>Confirm Password</label>
             <input 
-              type="password" 
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
               placeholder="Confirm your password"
               required 
             />
