@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Predict = () => {
+  const navigate = useNavigate();
   const [prediction, setPrediction] = useState(null);
   const [formData, setFormData] = useState({
     reference_year: '',
     predict_year: ''
   });
+
+  useEffect(() => {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) {
+      alert('Not a legit user, please sign in first');
+      navigate('/signin');
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

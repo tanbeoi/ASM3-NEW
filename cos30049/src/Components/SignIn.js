@@ -8,6 +8,7 @@ const SignIn = () => {
     email: '',
     password: ''
   });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -20,15 +21,15 @@ const SignIn = () => {
       });
       
       if (response.ok) {
-        // If login successful, navigate to predict page
+        // Simply store email to indicate user is logged in
+        localStorage.setItem('userEmail', formData.email);
         navigate('/predict');
       } else {
-        const data = await response.json();
-        alert(data.detail || 'Login failed');
+        alert('Invalid credentials');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Login failed');
+      alert('Sign in failed');
     }
   };
 

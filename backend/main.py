@@ -4,6 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
+import pandas as pd
+import joblib
+from sklearn.linear_model import LinearRegression
 import os
 
 
@@ -103,7 +106,7 @@ def signin(user: UserLogin, db: Session = Depends(get_db)):
         print(f"Login error: {str(e)}")  # Debug print
         raise HTTPException(status_code=500, detail=str(e))
 
-# Add after your database setup
+# Test database connection
 @app.get("/test-db")
 def test_db(db: Session = Depends(get_db)):
     try:
@@ -115,8 +118,7 @@ def test_db(db: Session = Depends(get_db)):
             "users": [
                 {
                     "id": user.id,
-                    "email": user.email,
-                    # Don't return passwords in production!
+                    "email": user.email,                
                     "password": user.password  
                 } 
                 for user in users
@@ -126,11 +128,10 @@ def test_db(db: Session = Depends(get_db)):
         print(f"Database error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
-# Update your database URL to be more explicit
+# Update database URL after some bugs
 DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'test.db')}"
 print(f"Database path: {DATABASE_URL}")  # Debug print
 
-# Make sure tables are created
 try:
     Base.metadata.create_all(bind=engine)
     print("Database tables created successfully")
@@ -138,6 +139,63 @@ except Exception as e:
     print(f"Error creating tables: {str(e)}")
 
 
+
+
+
+try: #debug data loading
+    
+    df = pd.read_csv("BITRE_MERGED_FLIGHT_DELAY.csv")
+    print("Data loaded successfully")
+    print(f"Columns in dataset: {df.columns.tolist()}")
+    print(f"First few rows:\n{df.head()}")
+    
+    # Convert columns to numeric
+    df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+    df['Departures On Time'] = pd.to_numeric(df['Departures On Time'], errors='coerce')
+    df['Arrivals Delayed'] = pd.to_numeric(df['Arrivals Delayed'], errors='coerce')
+    
+    # Remove any rows with NaN values
+    df = df.dropna()
+    
+    print(f"Data shape after cleaning: {df.shape}")
+except Exception as e:
+    print(f"Error loading/preparing data: {str(e)}")
+    raise
+
+
+class DelayPredictionInput(BaseModel):
+    predict_year: int
+
+@app.post("/predict_delay")
+async def predict_delay(input_data: DelayPredictionInput):
+    try:
+        # Prepare historical data for training
+        X = df[['Year', 'Departures On Time']].values  # Features
+        y = df['Arrivals Delayed'].values  # Target
+
+        # Train linear regression model
+        model = LinearRegression()
+        model.fit(X, y)
+
+        # Get the latest departure_ontime value from historical data
+        latest_departure = df['Departures On Time'].iloc[-1]  # Use the most recent value
+
+        # Make prediction for the specified year
+        prediction = model.predict([[input_data.predict_year, latest_departure]])[0]
+        
+        # Round to nearest whole number
+        prediction = round(prediction)
+        
+        return {
+            "prediction": prediction,
+            "based_on_departures": latest_departure
+        }
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Debug print
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Add an endpoint to get available years from data
+#
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
