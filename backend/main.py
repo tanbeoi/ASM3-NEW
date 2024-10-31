@@ -136,38 +136,7 @@ try:
     print("Database tables created successfully")
 except Exception as e:
     print(f"Error creating tables: {str(e)}")
-# Define input data model
-class FlightData(BaseModel):
-    departure_time: str
-    airline: str
-    origin: str
-    destination: str
-    # Add other relevant fields for your ML model
 
-# Define response model
-class PredictionResponse(BaseModel):
-    delay_prediction: float
-    confidence: float
-
-@app.get("/")
-async def root():
-    return {"message": "Flight Delay Prediction API"}
-
-@app.post("/predict", response_model=PredictionResponse)
-async def predict_flight_delay(flight_data: FlightData):
-    try:
-        # Here you would call your ML model
-        # prediction = predict_delay(flight_data)
-        
-        # Placeholder response
-        prediction = {
-            "delay_prediction": 15.5,  # minutes
-            "confidence": 0.85
-        }
-        
-        return prediction
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
