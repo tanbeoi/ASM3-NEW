@@ -5,13 +5,12 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 import pandas as pd
-import joblib
+
 from sklearn.linear_model import LinearRegression
 import os
 
 
-# Import your ML model here
-# from model import predict_delay
+
 
 app = FastAPI()
 
@@ -194,8 +193,8 @@ async def predict_delay(input_data: DelayPredictionInput):
         print(f"Error: {str(e)}")  # Debug print
         raise HTTPException(status_code=500, detail=str(e))
 
-# Add an endpoint to get available years from data
-#
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

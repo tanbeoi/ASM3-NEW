@@ -20,11 +20,7 @@ const Predict = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate that predict year is after reference year
-    if (parseInt(formData.predict_year) <= parseInt(formData.reference_year)) {
-      alert('Prediction year must be after reference year');
-      return;
-    }
+    
 
     try {
       const response = await fetch('http://localhost:8000/predict_delay', {
@@ -55,12 +51,6 @@ const Predict = () => {
     });
   };
 
-  // Historical years (2014-2023)
-  const historicalYears = Array.from(
-    {length: 10}, 
-    (_, i) => 2014 + i
-  );
-
   // Future years (2024-2033)
   const futureYears = Array.from(
     {length: 10}, 
@@ -72,21 +62,6 @@ const Predict = () => {
       <div className="predict-box">
         <h2>Flight Delay Prediction</h2>
         <form className="predict-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Reference Year (Historical Data)</label>
-            <select
-              name="reference_year"
-              value={formData.reference_year}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select reference year</option>
-              {historicalYears.map(year => (
-                <option key={year} value={year}>{year}</option>
-              ))}
-            </select>
-          </div>
-
           <div className="form-group">
             <label>Year to Predict</label>
             <select
@@ -110,7 +85,7 @@ const Predict = () => {
         {prediction && (
           <div className="prediction-result">
             <h3>Flight Delay Prediction</h3>
-            <p>Based on {formData.reference_year} data</p>
+            <p>Based on the data from 2014 to 2023</p>
             <p>Predicted delays for {formData.predict_year}:</p>
             <p className="prediction-number">{prediction.toLocaleString()} flights</p>
           </div>
