@@ -40,6 +40,9 @@ const NavBar = () => {
           <NavLink to="/signup" activeStyle onClick={toggleMenu}>
             Sign up
           </NavLink>
+          <NavLink to="/database" activeStyle onClick={toggleMenu}> 
+            Database 
+          </NavLink>
           <NavBtn>
             <NavBtnLink to="/signin" onClick={toggleMenu}>Sign In</NavBtnLink>
           </NavBtn>
@@ -60,6 +63,9 @@ const NavBar = () => {
           </NavLink>
           <NavLink to="/signup" activeStyle>
             Sign up
+          </NavLink>
+          <NavLink to="/database" activeStyle>
+            Database
           </NavLink>
         </NavMenu>
 

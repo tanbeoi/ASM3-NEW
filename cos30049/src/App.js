@@ -8,7 +8,7 @@ import Contacts from './Components/Contacts';
 import SignIn from './Components/SignIn';
 import Predict from './Components/Predict';
 import SignUp from './Components/SignUp';
-
+import Database from './Components/Database';
 const Home = () => {
   const navigate = useNavigate();
 
@@ -39,6 +39,7 @@ function App() {
         <Route path="/predict" element={<Predict />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/database" element={<Database />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
     </Router>

@@ -105,20 +105,20 @@ def signin(user: UserLogin, db: Session = Depends(get_db)):
         print(f"Login error: {str(e)}")  # Debug print
         raise HTTPException(status_code=500, detail=str(e))
 
-# Test database connection
-@app.get("/test-db")
-def test_db(db: Session = Depends(get_db)):
+
+@app.get("/database")
+async def test_db(db: Session = Depends(get_db)):
     try:
         # List all users in the database
         users = db.query(User).all()
+        print("Found users:", users)  # Debug print
         return {
             "message": "Database connection successful",
             "user_count": len(users),
             "users": [
                 {
                     "id": user.id,
-                    "email": user.email,                
-                    "password": user.password  
+                    "email": user.email
                 } 
                 for user in users
             ]
@@ -126,6 +126,7 @@ def test_db(db: Session = Depends(get_db)):
     except Exception as e:
         print(f"Database error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+
 
 # Update database URL after some bugs
 DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'test.db')}"
@@ -136,10 +137,6 @@ try:
     print("Database tables created successfully")
 except Exception as e:
     print(f"Error creating tables: {str(e)}")
-
-
-
-
 
 try: #debug data loading
     
