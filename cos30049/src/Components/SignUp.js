@@ -24,13 +24,13 @@ const SignUp = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        // Only send email and password to backend
+        //send email and password to backend
         body: JSON.stringify({
           email: formData.email,
           password: formData.password
         })
       });
-      
+      // Check status of response
       if (response.ok) {
         alert('Signup successful!');
         navigate('/signin');
@@ -43,14 +43,14 @@ const SignUp = () => {
       alert('Signup failed');
     }
   };
-
+  // Function to handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
-  
+  // Render the sign up form
   return (
     <div className="signup-container">
       <div className="signup-box">

@@ -1,11 +1,10 @@
 from fastapi import FastAPI, HTTPException, Depends
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 import pandas as pd
-
 from sklearn.linear_model import LinearRegression
 import os
 
@@ -17,7 +16,7 @@ app = FastAPI()
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
