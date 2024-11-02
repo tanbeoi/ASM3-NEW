@@ -9,12 +9,19 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 import os
 
-
-
+#Tan added
+from fastapi.responses import FileResponse
+from rain_data_analyze import generate_rain_visualizations
+from flight_delay_analyze import generate_flight_delay_visualizations
 
 app = FastAPI()
 
 # Configure CORS
+#Tan added
+origins = [
+    "http://localhost:3000",  # React app
+]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # In production, replace with specific origins
@@ -140,23 +147,24 @@ except Exception as e:
 
 try: #debug data loading
     
-    df = pd.read_csv("BITRE_MERGED_FLIGHT_DELAY.csv")
-    print("Data loaded successfully")
-    print(f"Columns in dataset: {df.columns.tolist()}")
-    print(f"First few rows:\n{df.head()}")
-    
-    # Convert columns to numeric
-    df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
-    df['Departures On Time'] = pd.to_numeric(df['Departures On Time'], errors='coerce')
-    df['Arrivals Delayed'] = pd.to_numeric(df['Arrivals Delayed'], errors='coerce')
-    
-    # Remove any rows with NaN values
-    df = df.dropna()
-    
-    print(f"Data shape after cleaning: {df.shape}")
+     csv_path = os.path.join(BASE_DIR, 'BITRE_MERGED_FLIGHT_DELAY.csv')
+     df = pd.read_csv(csv_path)
+     print("Data loaded successfully")
+     print(f"Columns in dataset: {df.columns.tolist()}")
+     print(f"First few rows:\n{df.head()}")
+     
+     # Convert columns to numeric
+     df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
+     df['Departures On Time'] = pd.to_numeric(df['Departures On Time'], errors='coerce')
+     df['Arrivals Delayed'] = pd.to_numeric(df['Arrivals Delayed'], errors='coerce')
+     
+     # Remove any rows with NaN values
+     df = df.dropna()
+     
+     print(f"Data shape after cleaning: {df.shape}")
 except Exception as e:
-    print(f"Error loading/preparing data: {str(e)}")
-    raise
+     print(f"Error loading/preparing data: {str(e)}")
+     raise
 
 
 class DelayPredictionInput(BaseModel):
@@ -189,7 +197,88 @@ async def predict_delay(input_data: DelayPredictionInput):
     except Exception as e:
         print(f"Error: {str(e)}")  # Debug print
         raise HTTPException(status_code=500, detail=str(e))
+    
+    
+# Ensure visualizations are generated when the server starts
+def ensure_visualizations():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    output_dir = os.path.join(base_dir, 'cos30049', 'public', 'visualizations')
+    required_files = [
+        'box_plot.png', 'bar_plot.png', 'count_plot.png', 'bar_plot_day.png',
+        'scatter_plot_delays_by_airline.png', 'line_plot_delays_over_years.png'
+    ]
+    
+    if not all(os.path.exists(os.path.join(output_dir, file)) for file in required_files):
+        generate_rain_visualizations()
+        generate_flight_delay_visualizations()
 
+ensure_visualizations()
+
+@app.get("/visualizations/box_plot")
+def get_box_plot():
+    try:
+        file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'box_plot.png')
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File not found")
+        return FileResponse(file_path)
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Debug print
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/visualizations/bar_plot")
+def get_bar_plot():
+    try:
+        file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'bar_plot.png')
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File not found")
+        return FileResponse(file_path)
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Debug print
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/visualizations/count_plot")
+def get_count_plot():
+    try:
+        file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'count_plot.png')
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File not found")
+        return FileResponse(file_path)
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Debug print
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/visualizations/bar_plot_day")
+def get_bar_plot_day():
+    try:
+        file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'bar_plot_day.png')
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File not found")
+        return FileResponse(file_path)
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Debug print
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/visualizations/scatter_plot_delays_by_airline")
+def get_scatter_plot_delays_by_airline():
+    try:
+        file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'scatter_plot_delays_by_airline.png')
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File not found")
+        return FileResponse(file_path)
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Debug print
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/visualizations/line_plot_delays_over_years")
+def get_line_plot_delays_over_years():
+    try:
+        file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'line_plot_delays_over_years.png')
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File not found")
+        return FileResponse(file_path)
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Debug print
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":
