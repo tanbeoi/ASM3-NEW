@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
 const SignIn = () => {
+  // State variables to manage form data and errors
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -10,15 +11,17 @@ const SignIn = () => {
   });
   const [error, setError] = useState('');
 
+  // Function to handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Now setError is defined
+    setError('');
 
     try {
       const response = await fetch('http://localhost:8000/signin', {
@@ -28,14 +31,13 @@ const SignIn = () => {
         },
         body: JSON.stringify(formData)
       });
-
+      // Check status of response
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.json(); 
+        //store user email and id in local storage
         localStorage.setItem('userEmail', formData.email);
         localStorage.setItem('userId', data.id ? data.id.toString() : '');
-        if (data.id === 1) {
-          localStorage.setItem('isAdmin', 'true');
-        }
+        
         navigate('/predict');
       } else {
         const errorData = await response.json();
@@ -46,6 +48,7 @@ const SignIn = () => {
       setError('Sign in failed. Please try again.');
     }
   };
+  // Render the sign in form
   return (
     <div className="signup-container">
       <div className="signup-box">

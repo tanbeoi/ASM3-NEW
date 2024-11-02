@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 
 
 function Database() {
+    // State variables to manage data, loading state, and errors
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    
+    // useEffect hook to fetch data when component mounts
     useEffect(() => {
         fetchData();
     }, []);
 
+    // Function to fetch data from the backend
     const fetchData = async () => {
         try {
             const response = await fetch('http://localhost:8000/database');
@@ -25,14 +28,17 @@ function Database() {
         }
     };
 
+    // Render loading message while data is being fetched
     if (loading) {
         return <div>Loading...</div>;
     }
 
+    // Render error message if there is an error
     if (error) {
         return <div className="error-message">Error: {error}</div>;
     }
 
+    // Render the database information
     return (
         <div className="database-container">
             <h2>Database Information</h2>
