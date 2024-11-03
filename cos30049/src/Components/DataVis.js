@@ -48,12 +48,12 @@ const DataVis = () => {
   return (
     <div className="data-vis-container">
       <h1>Data Visualizations</h1>
-      <img src={images.boxPlot} alt="Box Plot" />
-      <img src={images.barPlot} alt="Bar Plot" />
-      <img src={images.countPlot} alt="Count Plot" />
-      <img src={images.barPlotDay} alt="Bar Plot by Day" />
-      <img src={images.scatterPlotDelaysByAirline} alt="Scatter Plot of Delays by Airline" />
-      <img src={images.linePlotDelaysOverYears} alt="Line Plot of Delays Over Years" />
+      <img src={images.boxPlot} alt="Box Plot" style={{ width: '600px', height: 'auto' }} />
+      <img src={images.barPlot} alt="Bar Plot" style={{ width: '600px', height: 'auto' }} />
+      <img src={images.countPlot} alt="Count Plot" style={{ width: '600px', height: 'auto' }} />
+      <img src={images.barPlotDay} alt="Bar Plot by Day" style={{ width: '600px', height: 'auto' }} />
+      <img src={images.scatterPlotDelaysByAirline} alt="Scatter Plot of Delays by Airline" style={{ width: '900px', height: 'auto' }} />
+      <img src={images.linePlotDelaysOverYears} alt="Line Plot of Delays Over Years" style={{ width: '1200px', height: 'auto' }} />
     </div>
   );
 };
