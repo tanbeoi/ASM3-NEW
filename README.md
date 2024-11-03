@@ -8,9 +8,9 @@ pip install fastapi uvicorn sqlalchemy pandas scikit-learn
 ```
 
 3. Navigate to the cos30049 folder using CMD and use this command:
-    Install React dependencies for frontend
+    Install React dependencies for frontend, since we have all the packet we need in the packet.json file, we just need to re-install it
 ```bash
-npm install react-router-dom react-icons styled-components
+npm install 
 ```
 4. Then go back to backend folder and enter: 
 
