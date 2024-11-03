@@ -200,22 +200,29 @@ async def predict_delay(input_data: DelayPredictionInput):
     
 # Ensure visualizations are generated when the server starts
 def ensure_visualizations():
+    # Get the base directory and the output directory for visualizations
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     output_dir = os.path.join(base_dir, 'cos30049', 'public', 'visualizations')
+    
+    # List of required visualization files
     required_files = [
         'box_plot.png', 'bar_plot.png', 'count_plot.png', 'bar_plot_day.png',
         'scatter_plot_delays_by_airline.png', 'line_plot_delays_over_years.png'
     ]
     
+    # Check if all required files exist, if not, generate them
     if not all(os.path.exists(os.path.join(output_dir, file)) for file in required_files):
         generate_rain_visualizations()
         generate_flight_delay_visualizations()
 
+# Call the function to ensure visualizations are generated
 ensure_visualizations()
 
+# Endpoint to get the box plot visualization
 @app.get("/visualizations/box_plot")
 def get_box_plot():
     try:
+        # Construct the file path for the box plot
         file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'box_plot.png')
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail="File not found")
@@ -224,9 +231,11 @@ def get_box_plot():
         print(f"Error: {str(e)}")  # Debug print
         raise HTTPException(status_code=500, detail=str(e))
 
+# Endpoint to get the bar plot visualization
 @app.get("/visualizations/bar_plot")
 def get_bar_plot():
     try:
+        # Construct the file path for the bar plot
         file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'bar_plot.png')
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail="File not found")
@@ -235,9 +244,11 @@ def get_bar_plot():
         print(f"Error: {str(e)}")  # Debug print
         raise HTTPException(status_code=500, detail=str(e))
 
+# Endpoint to get the count plot visualization
 @app.get("/visualizations/count_plot")
 def get_count_plot():
     try:
+        # Construct the file path for the count plot
         file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'count_plot.png')
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail="File not found")
@@ -246,9 +257,11 @@ def get_count_plot():
         print(f"Error: {str(e)}")  # Debug print
         raise HTTPException(status_code=500, detail=str(e))
 
+# Endpoint to get the bar plot by day visualization
 @app.get("/visualizations/bar_plot_day")
 def get_bar_plot_day():
     try:
+        # Construct the file path for the bar plot by day
         file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'bar_plot_day.png')
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail="File not found")
@@ -257,9 +270,11 @@ def get_bar_plot_day():
         print(f"Error: {str(e)}")  # Debug print
         raise HTTPException(status_code=500, detail=str(e))
 
+# Endpoint to get the scatter plot of delays by airline visualization
 @app.get("/visualizations/scatter_plot_delays_by_airline")
 def get_scatter_plot_delays_by_airline():
     try:
+        # Construct the file path for the scatter plot of delays by airline
         file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'scatter_plot_delays_by_airline.png')
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail="File not found")
@@ -268,9 +283,11 @@ def get_scatter_plot_delays_by_airline():
         print(f"Error: {str(e)}")  # Debug print
         raise HTTPException(status_code=500, detail=str(e))
 
+# Endpoint to get the line plot of delays over years visualization
 @app.get("/visualizations/line_plot_delays_over_years")
 def get_line_plot_delays_over_years():
     try:
+        # Construct the file path for the line plot of delays over years
         file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cos30049', 'public', 'visualizations', 'line_plot_delays_over_years.png')
         if not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail="File not found")

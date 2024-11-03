@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../App.css';
 
 const DataVis = () => {
+  // State to hold the image URLs
   const [images, setImages] = useState({
     boxPlot: '',
     barPlot: '',
@@ -11,8 +12,10 @@ const DataVis = () => {
     linePlotDelaysOverYears: ''
   });
 
+  // Function to fetch images from the backend
   const fetchImages = async () => {
     try {
+      // Fetch each image from the backend
       const boxPlot = await fetch('http://localhost:8000/visualizations/box_plot').then(res => res.blob());
       const barPlot = await fetch('http://localhost:8000/visualizations/bar_plot').then(res => res.blob());
       const countPlot = await fetch('http://localhost:8000/visualizations/count_plot').then(res => res.blob());
@@ -20,6 +23,7 @@ const DataVis = () => {
       const scatterPlotDelaysByAirline = await fetch('http://localhost:8000/visualizations/scatter_plot_delays_by_airline').then(res => res.blob());
       const linePlotDelaysOverYears = await fetch('http://localhost:8000/visualizations/line_plot_delays_over_years').then(res => res.blob());
 
+      // Update the state with the new image URLs
       setImages({
         boxPlot: URL.createObjectURL(boxPlot),
         barPlot: URL.createObjectURL(barPlot),
@@ -33,34 +37,23 @@ const DataVis = () => {
     }
   };
 
+  // useEffect to fetch images on component mount and set up an interval to refresh them
   useEffect(() => {
-    fetchImages();
+    fetchImages(); // Initial fetch
     const interval = setInterval(fetchImages, 60000); // Fetch images every 60 seconds
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
+  // Render the images
   return (
     <div className="data-vis-container">
-      <h2>Flight Delay Visualizations</h2>
-      <div className="chart-container">
-        <img src={images.scatterPlotDelaysByAirline} alt="Scatter Plot Delays by Airline" />
-      </div>
-      <div className="chart-container">
-        <img src={images.linePlotDelaysOverYears} alt="Line Plot Delays Over Years" />
-      </div>
-      <h2>Rain Data Visualizations</h2>
-      <div className="chart-container">
-        <img src={images.boxPlot} alt="Box Plot" />
-      </div>
-      <div className="chart-container">
-        <img src={images.barPlot} alt="Bar Plot" />
-      </div>
-      <div className="chart-container">
-        <img src={images.countPlot} alt="Count Plot" />
-      </div>
-      <div className="chart-container">
-        <img src={images.barPlotDay} alt="Bar Plot by Day" />
-      </div>
+      <h1>Data Visualizations</h1>
+      <img src={images.boxPlot} alt="Box Plot" />
+      <img src={images.barPlot} alt="Bar Plot" />
+      <img src={images.countPlot} alt="Count Plot" />
+      <img src={images.barPlotDay} alt="Bar Plot by Day" />
+      <img src={images.scatterPlotDelaysByAirline} alt="Scatter Plot of Delays by Airline" />
+      <img src={images.linePlotDelaysOverYears} alt="Line Plot of Delays Over Years" />
     </div>
   );
 };

@@ -41,26 +41,35 @@ def generate_rain_visualizations():
     print("bar_plot.png saved successfully")  # Logging
     plt.close()
 
-    # Count plot of Severity levels
-    plt.figure(figsize=(10, 6))
-    sns.countplot(x='Severity', data=rain_data, order=['No rain', 'Small', 'Moderate', 'High', 'Critical', 'Catastrophic'])
-    plt.title('Count of Severity Levels')
-    plt.xlabel('Severity')
+    # Count plot of Rainfall amount by Location
+    plt.figure(figsize=(12, 8))
+    sns.countplot(x='Location', data=rain_data)
+    plt.title('Count Plot of Rainfall Amount by Location')
+    plt.xlabel('Location')
     plt.ylabel('Count')
+    plt.xticks(rotation=90)
     plt.savefig(os.path.join(output_dir, 'count_plot.png'))  # Save the plot as an image
     print("count_plot.png saved successfully")  # Logging
     plt.close()
 
-    # Bar plot of Average Rainfall amount by Day of the Week
+    # Scatter plot of Rainfall amount by Location
     plt.figure(figsize=(12, 8))
-    avg_rainfall_by_day = rain_data.groupby('Day of the week')['Rainfall amount (millimetres)'].mean().reset_index()
-    sns.barplot(x='Day of the week', y='Rainfall amount (millimetres)', data=avg_rainfall_by_day, order=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
-    plt.title('Average Rainfall Amount by Day of the Week')
-    plt.xlabel('Day of the Week')
-    plt.ylabel('Average Rainfall amount (millimetres)')
-    plt.savefig(os.path.join(output_dir, 'bar_plot_day.png'))  # Save the plot as an image
-    print("bar_plot_day.png saved successfully")  # Logging
+    sns.scatterplot(x='Location', y='Rainfall amount (millimetres)', data=rain_data)
+    plt.title('Scatter Plot of Rainfall Amount by Location')
+    plt.xlabel('Location')
+    plt.ylabel('Rainfall amount (millimetres)')
+    plt.xticks(rotation=90)
+    plt.savefig(os.path.join(output_dir, 'scatter_plot.png'))  # Save the plot as an image
+    print("scatter_plot.png saved successfully")  # Logging
     plt.close()
 
-if __name__ == "__main__":
-    generate_rain_visualizations()
+    # Line plot of Rainfall amount by Location
+    plt.figure(figsize=(12, 8))
+    sns.lineplot(x='Location', y='Rainfall amount (millimetres)', data=rain_data)
+    plt.title('Line Plot of Rainfall Amount by Location')
+    plt.xlabel('Location')
+    plt.ylabel('Rainfall amount (millimetres)')
+    plt.xticks(rotation=90)
+    plt.savefig(os.path.join(output_dir, 'line_plot.png'))  # Save the plot as an image
+    print("line_plot.png saved successfully")  # Logging
+    plt.close()

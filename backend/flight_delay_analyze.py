@@ -39,13 +39,36 @@ def generate_flight_delay_visualizations():
     plt.plot(delays_over_years['Year'], delays_over_years['Arrivals Delayed'], marker='o', color='green', label='Arrivals Delayed')
     plt.xlabel('Year')
     plt.ylabel('Number of Delays')
-    plt.title('Flight Delays Over the Years')
+    plt.title('Line Plot of Flight Delays Over the Years')
     plt.legend()
-    plt.grid(True)
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, 'line_plot_delays_over_years.png'))  # Save the plot as an image
     print("line_plot_delays_over_years.png saved successfully")  # Logging
     plt.close()
 
-if __name__ == "__main__":
-    generate_flight_delay_visualizations()
+    # Bar plot of Average Delays by Airline
+    plt.figure(figsize=(15, 30))
+    avg_delays_by_airline = flight_data.groupby('Airline')[['Departures Delayed', 'Arrivals Delayed']].mean().reset_index()
+    sns.barplot(x='Airline', y='Departures Delayed', data=avg_delays_by_airline, color='blue', label='Departures Delayed')
+    sns.barplot(x='Airline', y='Arrivals Delayed', data=avg_delays_by_airline, color='green', label='Arrivals Delayed')
+    plt.xticks(rotation=45, ha='right')
+    plt.title('Bar Plot of Average Delays by Airline')
+    plt.ylabel('Average Number of Delays')
+    plt.xlabel('Airline')
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_dir, 'bar_plot_avg_delays_by_airline.png'))  # Save the plot as an image
+    print("bar_plot_avg_delays_by_airline.png saved successfully")  # Logging
+    plt.close()
+
+    # Heatmap of Delays by Month and Airline
+    plt.figure(figsize=(15, 30))
+    delays_by_month_airline = flight_data.pivot_table(index='Month', columns='Airline', values='Departures Delayed', aggfunc='sum')
+    sns.heatmap(delays_by_month_airline, annot=True, fmt='d', cmap='YlGnBu')
+    plt.title('Heatmap of Departures Delayed by Month and Airline')
+    plt.ylabel('Month')
+    plt.xlabel('Airline')
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_dir, 'heatmap_delays_by_month_airline.png'))  # Save the plot as an image
+    print("heatmap_delays_by_month_airline.png saved successfully")  # Logging
+    plt.close()
