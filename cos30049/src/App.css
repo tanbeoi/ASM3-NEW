@@ -5,6 +5,17 @@
      padding: 0;
 }
 
+ /* About page */
+ .no-dots {
+     list-style-type: none;
+     padding: 0;
+   }
+   
+   .no-dots li {
+     margin-bottom: 10px;
+   }
+/* ----------------- */
+
 .logo {
      height: 85px; /* Adjust the height as needed */
      width: auto;  /* Maintain aspect ratio */

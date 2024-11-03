@@ -34,9 +34,6 @@ const NavBar = () => {
           <NavLink to="/predict" activeStyle onClick={toggleMenu}>
             Predict
           </NavLink>
-          <NavLink to="/contacts" activeStyle onClick={toggleMenu}>
-            Contacts
-          </NavLink>
           <NavLink to="/signup" activeStyle onClick={toggleMenu}>
             Sign up
           </NavLink>
@@ -57,9 +54,6 @@ const NavBar = () => {
           </NavLink>
           <NavLink to="/predict" activeStyle>
             Predict
-          </NavLink>
-          <NavLink to="/contacts" activeStyle>
-            Contacts
           </NavLink>
           <NavLink to="/signup" activeStyle>
             Sign up
