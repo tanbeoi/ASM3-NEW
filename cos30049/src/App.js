@@ -4,7 +4,6 @@ import NavBar from './Components/Navbar';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import About from './Components/About';
 import DataVis from './Components/DataVis';
-import Contacts from './Components/Contacts';
 import SignIn from './Components/SignIn';
 import Predict from './Components/Predict';
 import SignUp from './Components/SignUp';
@@ -37,7 +36,6 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/dataVis" element={<DataVis />} />
         <Route path="/predict" element={<Predict />} />
-        <Route path="/contacts" element={<Contacts />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/database" element={<Database />} />
         <Route path="/signup" element={<SignUp />} />
